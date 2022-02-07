@@ -1,0 +1,57 @@
+{
+  "name": "ali-react-overlays",
+  "version": "0.1.0",
+  "description": "React 浮层组件包",
+  "sideEffects": false,
+  "module": "dist/ali-react-overlays.js",
+  "main": "dist/ali-react-overlays.js",
+  "types": "dist/ali-react-overlays.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinima/ali-react-overlays.git"
+  },
+  "homepage": "https://github.com/shinima/ali-react-overlays",
+  "author": {
+    "name": "Shi Feichao",
+    "email": "842351815@qq.com"
+  },
+  "scripts": {
+    "watch": "rollup --config rollup.config.js --watch",
+    "build": "bash scripts/build.sh",
+    "preversion": "yarn build",
+    "prepublishOnly": "yarn build"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "memoize-one": "^6.0.0",
+    "@popperjs/core": "^2.9.1",
+    "@types/classnames": "^2.2.9",
+    "@types/lodash-es": "^4.17.4",
+    "classnames": "^2.2.6",
+    "lodash-es": "^4.17.21",
+    "resize-observer-polyfill": "^1.5.1",
+    "rxjs": "^7.5.2"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.1"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.19.4",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.13.1",
+    "@types/react-dom": "^16.9.9",
+    "react-is": "^16.13.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.3.1",
+    "rollup-plugin-typescript2": "^0.30.0"
+  }
+}

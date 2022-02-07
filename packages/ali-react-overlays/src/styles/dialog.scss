@@ -1,0 +1,46 @@
+@use './panel';
+
+.aro-dialog {
+  @extend .aro-panel;
+
+  // 400px 为默认宽度，实际宽度可以被 style.width 覆盖
+  width: 400px;
+  max-width: 70%;
+
+  .aro-dialog-header {
+    font-size: 16px;
+    margin: 12px 16px;
+    color: var(--aro-gray-90);
+  }
+
+  .aro-dialog-body {
+    font-size: 12px;
+    margin: 12px 16px;
+    color: var(--aro-gray-90);
+  }
+
+  .aro-dialog-footer {
+    display: flex;
+    margin: 12px 16px;
+    justify-content: flex-end;
+
+    > * {
+      margin-left: 8px;
+    }
+  }
+
+  .aro-dialog-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--aro-gray-50);
+    cursor: pointer;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}

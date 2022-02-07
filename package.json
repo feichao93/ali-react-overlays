@@ -1,0 +1,35 @@
+{
+  "name": "ali-react-overlays-monorepo",
+  "private": true,
+  "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start:website": "yarn workspace website start",
+    "build:website": "yarn workspace website build",
+    "deploy:website": "yarn workspace website deploy",
+    "postinstall": "patch-package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinima/ali-react-overlays.git"
+  },
+  "homepage": "https://github.com/shinima/ali-react-overlays",
+  "author": {
+    "name": "Shi Feichao",
+    "email": "feichao.sfc@alibaba-inc.com"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "semi": true,
+    "trailingComma": "all"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.0",
+    "patch-package": "^6.4.7",
+    "prettier": "^2.5.1",
+    "typescript": "4.5"
+  }
+}

@@ -1,0 +1,161 @@
+---
+id: popup
+title: Popup 弹层
+---
+
+import { Popup } from 'ali-react-overlays';
+import * as stories from 'website/src/examples/popup.stories.tsx';
+
+:::caution
+组件仍在优化中，目前阶段请使用最简单的用法。
+:::
+
+## 使用场景
+
+Popup 弹层用于在某个参照元素的指定方向弹出一个[浮层](overlay)，浮层内可以渲染自定义的内容。
+
+## 使用方式
+
+名词解释
+
+- 弹层 / popup：「弹层」一词在本页文档中有两个含义。不同含义可能会混用，注意根据上下文进行区分。
+  - 指「弹层组件」，包括触发元素，弹出内容，以及弹出交互与定位同步等逻辑
+  - 指「弹层组件的浮层」
+- target：触发弹层打开的元素，点击 target 或鼠标移入 target 将触发弹层打开（触发方式取决于 interactionKind）。
+- reference：弹层定位的参照元素。一般情况下，reference 与 target 指向同一个元素，很多地方我们不区分两者。
+- content：浮层内的自定义内容。弹层打开后，content 与 reference 的位置总是保持同步。
+  - 弹层内部使用了 [popper.js](https://popper.js.org/) 作为定位引擎，弹层被打开后，组件内部会监听相关的 scroll 和 resize 事件，使得浮层与参考元素的位置总是保持同步。
+- interactionKind：弹层交互类型
+  - `'click'` 点击 target 打开弹层
+  - `'hover'` 鼠标悬停在 target 或者 content 上打开弹层；鼠标离开 target 或 content 关闭弹层
+  - `'hover-target'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 关闭弹层
+  - 除了以上交互，Popup 还支持以下选项控制弹层交互：
+    - `canOpenByFocus`
+    - `canCloseByBlur`
+    - `canCloseByEsc`
+    - `canCloseByOutSideClick`
+- placement：偏好的弹层方向，默认为 `'bottom-start'`。
+  - 支持来自 [popper.js](https://popper.js.org/docs/v2/constructors/#options) 的 12 个方向以及 `'auto' | 'auto-start' | 'auto-end'` 这 3 个关键字。
+
+<stories.Placements />
+
+## 示例
+
+### 基本弹层
+
+<Story fn={stories.Basic} />
+
+### 受控用法
+
+通过 visible / onRequestClose 手动控制弹层的打开与关闭。受控用法可以在弹层内部主动关闭弹层。
+
+<Story fn={stories.Controlled} />
+
+### 弹层嵌套
+
+在 Popup 的 children 中渲染另一个 Popup 组件可以实现嵌套的弹层。
+
+<Story fn={stories.Nested} />
+
+### 箭头
+
+设置 `hasArrow={true}` 可以为弹层添加箭头。
+
+你可以通过 `wrapperStyle={{ '--aro-popup-arrow-color': '#333' }}` 来设置弹层箭头的颜色。
+
+针对常见的文字提示场景，推荐使用 [Tooltip](tooltip) 组件。
+
+<Story fn={stories.Arrow} />
+
+### 交互微调
+
+- interactionKind：弹层交互类型
+- `'click'` 点击 target 打开弹层
+- `'hover'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 或 content 关闭弹层
+- `'hover-target'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 关闭弹层
+- 除了以上交互，Popup 还支持以下选项控制弹层交互： `canOpenByFocus`, `canCloseByEsc`, `canCloseByBlur`, `canCloseByOutSideClick`
+
+<Story fn={stories.InteractionKind} />
+
+## 进阶用法
+
+### 弹层方向与动画
+
+通过 `props.animationDict` 可以为 12 个不同的方向设置不同的弹层动画。 animationDict 中不需要设置所有方向的动画，缺失特定方向时会使用 `props.animation`。
+
+目前 Popup 组件的默认动画如下：
+
+```js
+Popup.defaultAnimation = {
+  in: animations.expandInDown,
+  out: animations.expandOutUp,
+};
+
+Popup.defaultAnimationDict = {
+  top: { in: animations.expandInUp, out: animations.expandOutDown },
+  'top-start': { in: animations.expandInUp, out: animations.expandOutDown },
+  'top-end': { in: animations.expandInUp, out: animations.expandOutDown },
+};
+```
+
+### 弹层触发的交互
+
+#### 整体规则
+
+弹层组件总是会按照一定的规则或时机调用 `onRequestOpen` 或 `onRequestClose`，非受控用法下 弹层会直接进行相应的操作；受控用法下，上层代码有更多的控制权，可以覆盖这两个回调的默认行为，也可以选择在其他地方控制弹层的打开或关闭。
+
+#### 受控用法
+
+受控用法下，弹层是否打开由 `props.visible` 决定，上层代码可以选择主动打开或关闭弹层。
+
+如果设置了 `canCloseBy*`，onRequestClose 会在相应的时机被调用，上层代码可以在此回调中选择将 visible 设置为 false 以关闭弹层。同理，设置 `canOpenBy*` 后，openRequestOpen 会在特定时机被调用。
+
+弹层支持「点击打开」时，即 `interactionKind='click'`，鼠标点击 target 会调用 onRequestOpen 或 onRequestClose。 上层代码可以选择在 onRequestOpen 中将 visible 设置为 true，也可以选择覆盖 target 上的 onClick 回调。
+
+弹层支持「鼠标悬停」打开时，即 `interactionKind='hover'` 或 `interactionKind='hover-target'`，鼠标在 target 上停留时长超过 hoverDelay（默认 120ms）后，onRequestOpen 将被调用。类似的，鼠标离开 target 或 content 超过 hoverDelay（默认 120ms）后，onRequestClose 将被调用。
+
+#### 非受控用法
+
+非受控用法下，弹层打开或关闭由 defaultVisible、onRequestOpen 以及 onRequestClose 决定。onRequestOpen 与 onRequestClose 的调用规则与时机与**受控用法**下相同。
+
+### 精简 DOM 结构
+
+使用 `<Popup target={someButton}>...</Popup>` 时，组件会在 target 外层额外包一个 span 元素。该 span 用于设置相关事件监听器并进行定位。此时，对应的 DOM 结构大致如下：
+
+```js
+// 这个 span 元素是 Popup 组件内部自动添加的
+<span
+  // span.aro-popup-target 将匹配以下样式： display=inline-block
+  className="aro-popup-target"
+  // targetRef 与 onClick 等回调函数由 Popup 组件内部提供，用于实现弹层交互
+  ref={targetRef}
+  onClick={onClick}
+  onMouseEnter={onMouseEnter}
+  onMouseLeave={onMouseLeave}
+  onFocus={onFocus}
+  onBlur={onBlur}
+>
+  {target}
+</span>
+```
+
+设置 `targetTagName='div'` 可以使用 div 来代替 span，实现块级元素布局；`targetStyle` 可以设置 div/span 的内联样式。
+
+如果不想要这个额外的 div/span（例如 CSS Gird 布局下额外的 div/span 会导致页面布局失效），可以使用 `renderTarget` 代替 `target` 来精简 DOM 结构。
+
+```jsx
+<Popup
+  renderTarget={(arg) => (
+    // arg 是一个包含 ref/onClick/onMouseEnter/onMouseLeave/onFocus/onBlur 字段的对象
+    <Button {...arg}>点击打开弹层</Button>
+  )}
+>
+  弹层内容
+</Popup>
+```
+
+使用 `<Popup>{children}</Popup>` 时，组件会在 `children` 外层额外包一个 div 用于弹层定位。如果不想要这个默认的 div，可以使用 `renderChildren` 进行精简。
+
+## API
+
+<PropsTable component={Popup} />

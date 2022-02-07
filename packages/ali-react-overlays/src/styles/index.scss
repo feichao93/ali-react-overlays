@@ -1,0 +1,69 @@
+@use 'sass:color';
+@use './animations';
+@use './dialog';
+@use './drawer';
+@use './popup';
+@use './overlay';
+@use './panel';
+@use './toast';
+@use './tooltip';
+
+@use 'variables.css';
+
+.aro-overflow-hidden {
+  overflow: hidden;
+}
+
+.aro-overflow-force-hidden {
+  overflow: hidden !important;
+}
+
+.aro-fullscreen-popup-panel {
+  min-width: 30%;
+  max-width: 90%;
+}
+
+:root {
+  --aro-overlay-depth-0: white;
+  --aro-overlay-depth-1: white;
+  --aro-overlay-depth-2: white;
+  --aro-overlay-depth-3: white;
+  --aro-overlay-depth-4: white;
+  --aro-overlay-depth-6: white;
+  --aro-overlay-depth-8: white;
+  --aro-overlay-depth-12: white;
+  --aro-overlay-depth-16: white;
+  --aro-overlay-depth-24: white;
+
+  --aro-overlay-depth-s: white;
+  --aro-overlay-depth-m: white;
+  --aro-overlay-depth-l: white;
+  --aro-overlay-depth-xl: white;
+}
+
+// todo 用起来
+:root.dark {
+  $dark_bg: #141414;
+
+  --aro-overlay-depth-0: #{color.mix(white, $dark_bg, 0%)};
+  --aro-overlay-depth-1: #{color.mix(white, $dark_bg, 5%)};
+  --aro-overlay-depth-2: #{color.mix(white, $dark_bg, 7%)};
+  --aro-overlay-depth-3: #{color.mix(white, $dark_bg, 8%)};
+  --aro-overlay-depth-4: #{color.mix(white, $dark_bg, 9%)};
+  --aro-overlay-depth-6: #{color.mix(white, $dark_bg, 11%)};
+  --aro-overlay-depth-8: #{color.mix(white, $dark_bg, 12%)};
+  --aro-overlay-depth-12: #{color.mix(white, $dark_bg, 14%)};
+  --aro-overlay-depth-16: #{color.mix(white, $dark_bg, 15%)};
+  --aro-overlay-depth-24: #{color.mix(white, $dark_bg, 16%)};
+
+  // 背景层 0
+  // --aro-overlay-depth-0
+  // 框架层 4
+  --aro-overlay-depth-s: var(--aro-overlay-depth-4);
+  // 悬浮层 8
+  --aro-overlay-depth-m: var(--aro-overlay-depth-8);
+  // 抽屉层 16
+  --aro-overlay-depth-l: var(--aro-overlay-depth-16);
+  // 对话框 24
+  --aro-overlay-depth-xl: var(--aro-overlay-depth-24);
+}

@@ -1,0 +1,48 @@
+@use './panel';
+
+.aro-toast-list {
+  z-index: 1000;
+  position: absolute;
+  transition: top 200ms, left 200ms;
+  pointer-events: none;
+
+  // 300px 为默认宽度，实际宽度可以被 style.width 覆盖
+  width: 300px;
+  max-width: 80%;
+}
+
+.aro-toast {
+  @extend .aro-panel;
+
+  position: relative;
+  overflow: hidden;
+  padding: 16px 12px;
+  margin-bottom: 12px;
+  pointer-events: all;
+
+  &.aro-toast-clickable {
+    cursor: pointer;
+  }
+
+  .aro-toast-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .aro-toast-close-icon {
+    display: block;
+    color: #999;
+    cursor: pointer;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}
+
+.aro-toast-shrinking {
+  --animate-duration: 300ms;
+  pointer-events: none;
+  overflow: hidden;
+}

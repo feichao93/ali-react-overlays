@@ -1,0 +1,14 @@
+diff --git a/node_modules/react-docgen-typescript/lib/parser.js b/node_modules/react-docgen-typescript/lib/parser.js
+index d24f3c8..a27a785 100644
+--- a/node_modules/react-docgen-typescript/lib/parser.js
++++ b/node_modules/react-docgen-typescript/lib/parser.js
+@@ -472,6 +472,9 @@ var Parser = /** @class */ (function () {
+         var tagComments = [];
+         var tagMap = {};
+         tags.forEach(function (tag) {
++            if (Array.isArray(tag.text)) {
++              tag = { ...tag, text: tag.text[0].text }
++            }
+             var trimmedText = (tag.text || '').trim();
+             var currentValue = tagMap[tag.name];
+             tagMap[tag.name] = currentValue

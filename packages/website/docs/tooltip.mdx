@@ -1,0 +1,59 @@
+---
+id: tooltip
+title: Tooltip 文字提示
+---
+
+import { Tooltip } from 'ali-react-overlays';
+import * as stories from 'website/src/examples/tooltip.stories.tsx';
+
+:::caution
+组件仍在优化中，目前阶段请使用最简单的用法。
+:::
+
+## 使用场景
+
+简单的文字提示气泡框。
+
+鼠标移入则显示提示，移出消失，文字提示不承载复杂文本和操作。可用来代替系统默认的 title 提示，提供一个 按钮/文字/操作 的文案解释。
+
+```jsx
+// 默认写法:
+<span title="文案解释，文案解释">被解释的文本</span>
+
+// 使用 Tooltip 进行优化:
+<Tooltip title="文案解释，文案解释">被解释的文本</Tooltip>
+```
+
+## 示例
+
+### 基本示例
+
+```jsx live
+function Example() {
+  return (
+    <Tooltip
+      title={
+        <>
+          最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
+          <br />
+          工作职责：巴拉巴拉小魔仙
+          <br />
+          联系方式：67676767｜1212121@163.con
+        </>
+      }
+    >
+      <span style={{ border: '1px solid currentColor', padding: 4, cursor: 'default' }}>鼠标悬停查看详情</span>
+    </Tooltip>
+  );
+}
+```
+
+### 弹出方向
+
+使用 `placement` 设置文字提示的弹出方向。
+
+<stories.Placements />
+
+## API
+
+<PropsTable component={Tooltip} />
