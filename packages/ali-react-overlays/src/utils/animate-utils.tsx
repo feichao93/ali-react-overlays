@@ -31,17 +31,20 @@ export function startAnimate(
     return startNullAnimate(element, onEnd);
   }
 
-  element.classList.add(ANIMATE_ANIMATED, `${ANIMATE_PREFIX}${animation}`);
+  const animateClassName = `${ANIMATE_PREFIX}${animation}`;
+
+  element.classList.add(ANIMATE_ANIMATED, animateClassName);
   element.addEventListener('animationend', handleAnimationEnd);
 
   function dispose() {
-    element.classList.remove(ANIMATE_ANIMATED, `${ANIMATE_PREFIX}${animation}`);
+    element.classList.remove(ANIMATE_ANIMATED, animateClassName);
     element.removeEventListener('animationend', handleAnimationEnd);
   }
 
   function handleAnimationEnd(_e: Event) {
     const event = _e as AnimationEvent;
-    if (event.target === element && event.animationName === animation) {
+
+    if (event.target === element && Array.from(element.classList).includes(animateClassName)) {
       dispose();
       onEnd(event);
     }
