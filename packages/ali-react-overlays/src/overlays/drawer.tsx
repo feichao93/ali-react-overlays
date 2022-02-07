@@ -11,19 +11,14 @@ import {
   Overlay,
 } from './overlay';
 
-type DrawerInnerProps = Pick<DrawerProps, 'title' | 'content' | 'footer' | 'canCloseByIcon' | 'onRequestClose'>;
+type DrawerInnerProps = Pick<DrawerProps, 'title' | 'content' | 'footer' | 'extra' | 'onRequestClose'>;
 
-const DrawerInner = ({ title, footer, content, onRequestClose, canCloseByIcon }: DrawerInnerProps) => (
+const DrawerInner = ({ title, footer, content, onRequestClose, extra }: DrawerInnerProps) => (
   <React.Fragment>
-    {title && <div className="aro-drawer-header">{title}</div>}
+    {title == null ? null : <div className="aro-drawer-header">{title}</div>}
     <div className="aro-drawer-body">{content}</div>
-    {footer && <div className="aro-drawer-footer">{footer}</div>}
-
-    {canCloseByIcon && (
-      <button className="aro-drawer-close" onClick={onRequestClose}>
-        close
-      </button>
-    )}
+    {footer == null ? footer : <div className="aro-drawer-footer">{footer}</div>}
+    {extra}
   </React.Fragment>
 );
 
@@ -50,9 +45,13 @@ export interface DrawerProps
 
   children?: React.ReactNode;
   content?: React.ReactNode;
+  extra?: React.ReactNode;
+
   /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构 */
-  renderChildren?(pass: {
+  structure?(drawerProps: {
     ref: React.Ref<HTMLDivElement>;
+    className: string;
+    style: React.CSSProperties;
     'data-placement': DrawerProps['placement'];
   }): React.ReactNode;
 
@@ -60,9 +59,6 @@ export interface DrawerProps
   footer?: React.ReactNode;
 
   wrapperRef?: React.Ref<HTMLDivElement>;
-
-  /** 是否显示对话框关闭图标 */
-  canCloseByIcon?: boolean;
 }
 
 function resolveDrawerAnimation(
@@ -86,12 +82,12 @@ function resolveDrawerAnimation(
 }
 
 export function Drawer({
-  style,
-  className,
+  style: styleProp,
+  className: classNameProp,
   visible,
   children: _children,
   content = _children,
-  renderChildren,
+  structure,
   title,
   footer,
   placement = 'right',
@@ -101,7 +97,6 @@ export function Drawer({
   backdropStyle,
   canCloseByEsc = true,
   canCloseByOutSideClick = true,
-  canCloseByIcon = false,
   usePortal,
   portalContainer: portalContainerProp,
   disableScroll = true,
@@ -111,7 +106,11 @@ export function Drawer({
 }: DrawerProps) {
   const overlayBehavior = useOverlayBehavior();
   const portalContainer = portalContainerProp ?? overlayBehavior.portalContainer;
-  const position = Overlay.isCustomPortalContainer(portalContainer) ? 'absolute' : undefined;
+
+  const className = cx('aro-drawer', classNameProp);
+  const style: React.CSSProperties = Overlay.isCustomPortalContainer(portalContainer)
+    ? { position: 'absolute', ...styleProp }
+    : styleProp;
 
   return (
     <Overlay
@@ -128,30 +127,23 @@ export function Drawer({
       disableScroll={disableScroll}
       wrapperRef={wrapperRef}
       {...lifecycles}
-      renderChildren={({ ref }) => {
-        if (renderChildren != null) {
-          return renderChildren({ ref: ref as React.Ref<HTMLDivElement>, 'data-placement': placement });
+      renderChildren={({ ref: _ref }) => {
+        const ref = _ref as React.Ref<HTMLDivElement>;
+
+        if (structure != null) {
+          if (typeof structure !== 'function') {
+            console.warn('[ali-react-overlays] Drawer props.structure 必须为回调函数');
+            return <div ref={ref} />;
+          }
+          return structure({ ref, className, style, 'data-placement': placement });
         }
 
         return (
-          <div
-            ref={ref as React.Ref<HTMLDivElement>}
-            style={{ position, ...style }}
-            className={cx('aro-drawer', className)}
-            data-placement={placement}
-          >
-            <DrawerInner
-              title={title}
-              content={content}
-              footer={footer}
-              canCloseByIcon={canCloseByIcon}
-              onRequestClose={onRequestClose}
-            />
+          <div ref={ref} style={style} className={className} data-placement={placement}>
+            <DrawerInner title={title} content={content} footer={footer} onRequestClose={onRequestClose} />
           </div>
         );
       }}
     />
   );
 }
-
-Drawer.Inner = DrawerInner;

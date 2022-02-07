@@ -1,4 +1,4 @@
-import { Dialog, Drawer, PositionPlacement } from 'ali-react-overlays';
+import { Dialog, Drawer, Overlay, PositionPlacement } from 'ali-react-overlays';
 import * as _ from 'lodash-es';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
@@ -47,7 +47,6 @@ export function NonModal() {
         visible={state.visible}
         onRequestClose={() => setState({ visible: false })}
         canCloseByEsc
-        canCloseByIcon
         canCloseByOutSideClick
       >
         {hippoIntroduction}
@@ -175,7 +174,6 @@ export function VeryTall() {
         visible={visible}
         onRequestClose={() => setVisible(false)}
         canCloseByEsc
-        canCloseByIcon
         style={{ maxHeight: 'calc(100% - 32px)', overflow: 'auto', borderRadius: 0 }}
         placement="top"
         offset={[0, 16]}
@@ -199,12 +197,10 @@ export function Minimal() {
       <Dialog
         visible={visible}
         onRequestClose={() => setVisible(false)}
-        style={{ width: 300, height: 250, padding: '1rem 2rem 1rem 1rem' }}
         canCloseByOutSideClick
         canCloseByEsc
-        canCloseByIcon
-        renderChildren={({ ref }) => (
-          <div className="aro-dialog" ref={ref as React.Ref<HTMLDivElement>} style={{ width: '80%', padding: 16 }}>
+        structure={(dialogProps) => (
+          <div {...dialogProps} style={{ width: 300, height: 250, padding: 16 }}>
             {hippoIntroduction}
           </div>
         )}

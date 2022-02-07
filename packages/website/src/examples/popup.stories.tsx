@@ -188,8 +188,8 @@ export function Placements() {
         key={placement}
         flip={false}
         hasArrow
-        renderTarget={(pass) => (
-          <StyledButton {...pass} style={getStyle(index)}>
+        renderTarget={(targetProps) => (
+          <StyledButton {...targetProps} style={getStyle(index)}>
             {placement}
           </StyledButton>
         )}

@@ -133,9 +133,15 @@ export function Minimal() {
       <Drawer
         visible={visible}
         onRequestClose={() => setVisible(false)}
-        style={{ paddingRight: 16, paddingLeft: 12 }}
-        renderChildren={(arg) => (
-          <div className="aro-drawer" {...arg}>
+        structure={(drawerProps) => (
+          <div
+            {...drawerProps}
+            style={{
+              ...drawerProps.style,
+              paddingRight: 16,
+              paddingLeft: 12,
+            }}
+          >
             <p>{alibabaIntroduction}</p>
             <p>{alibabaIntroduction}</p>
             <p>{alibabaIntroduction}</p>

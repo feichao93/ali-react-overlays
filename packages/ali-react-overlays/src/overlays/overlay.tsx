@@ -126,7 +126,7 @@ export interface OverlayProps
   children?: React.ReactNode;
 
   /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构 */
-  renderChildren(pass: { ref: React.RefObject<Element>; children: React.ReactNode }): React.ReactNode;
+  renderChildren(overlayProps: { ref: React.RefObject<Element>; children: React.ReactNode }): React.ReactNode;
 
   wrapperRef?: React.Ref<HTMLDivElement>;
 

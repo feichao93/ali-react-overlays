@@ -1,6 +1,6 @@
 import { PopupPlacement, Tooltip } from 'ali-react-overlays';
-import { useState } from 'react';
 import * as React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 export default { title: 'overlays / Tooltip' };
@@ -37,8 +37,8 @@ export function Placements() {
       <Tooltip
         key={placement}
         flip={false}
-        renderTarget={(pass) => (
-          <button {...pass} style={getStyle(index)}>
+        renderTarget={(targetProps) => (
+          <button {...targetProps} style={getStyle(index)}>
             {placement}
           </button>
         )}

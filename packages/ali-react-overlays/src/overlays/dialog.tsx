@@ -6,7 +6,7 @@ import { useOverlayBehavior } from '../context';
 import { animations } from '../utils/animations';
 import { useMemoizedMergeRefs } from '../utils/common';
 import { makeDetachedRenderContainer, useRenderContainerFactory } from '../utils/render-containers';
-import { DialogFooter, DialogInner } from './dialog-inner';
+import { DialogInner } from './dialog-inner';
 import { makeDialogQuickTools } from './dialog-quick-tools';
 import {
   IOverlayAnimationProps,
@@ -30,9 +30,14 @@ export interface DialogProps
   onRequestClose?(reason: any): void;
   content?: React.ReactNode;
   children?: React.ReactNode;
+  extra?: React.ReactNode;
 
   /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构 */
-  renderChildren?(pass: { ref: React.Ref<Element> }): React.ReactNode;
+  structure?(dialogProps: {
+    ref: React.Ref<HTMLDivElement>;
+    className: string;
+    style?: React.CSSProperties;
+  }): React.ReactNode;
   title?: React.ReactNode;
 
   /** @displayType null | React.ReactElement */
@@ -42,9 +47,6 @@ export interface DialogProps
   onCancel?(): void;
   placement?: PositionPlacement;
   offset?: PositionOffset;
-
-  /** 是否显示对话框关闭图标 */
-  canCloseByIcon?: boolean;
 }
 
 export function Dialog(props: DialogProps) {
@@ -52,7 +54,7 @@ export function Dialog(props: DialogProps) {
     visible,
     children,
     content = children,
-    renderChildren,
+    structure,
     title,
     footer,
     onRequestClose,
@@ -62,8 +64,8 @@ export function Dialog(props: DialogProps) {
     canCloseByEsc,
     canCloseByOutSideClick,
     disableScroll,
-    canCloseByIcon,
-    className,
+    extra,
+    className: classNameProp,
     style,
     portalContainer: portalContainerProp,
     placement,
@@ -90,19 +92,20 @@ export function Dialog(props: DialogProps) {
         <Position placement={placement} offset={offset} container={portalContainer}>
           {(positionTargetRef) => {
             const ref = mergeRefs(overlayContentRef, positionTargetRef);
-            if (renderChildren != null) {
-              return renderChildren({ ref });
+            const className = cx('aro-dialog', classNameProp);
+
+            if (structure != null) {
+              return structure({ ref, className, style });
             }
 
             return (
-              <div ref={ref} style={props.style} className={cx('aro-dialog', props.className)}>
+              <div ref={ref} style={style} className={className}>
                 <DialogInner
                   title={title}
                   content={content}
                   footer={footer}
                   onOk={onOk}
                   onCancel={onCancel}
-                  canCloseByIcon={canCloseByIcon}
                   onRequestClose={onRequestClose}
                 />
               </div>
@@ -121,13 +124,9 @@ Dialog.defaultProps = {
   canCloseByEsc: false,
   canCloseByOutSideClick: false,
   disableScroll: true,
-  canCloseByIcon: false,
   placement: 'center',
 };
 Dialog.defaultAnimation = { in: animations.zoomIn, out: animations.zoomOut };
-
-Dialog.Inner = DialogInner;
-Dialog.Footer = DialogFooter;
 
 const staticQuickTools = makeDialogQuickTools(makeDetachedRenderContainer);
 Dialog.show = staticQuickTools.show;

@@ -49,37 +49,18 @@
 
   @include drawerPlacementsMixin();
 
-  .aro-drawer-close.aro-drawer-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-  }
-
-  .aro-drawer-close-icon {
-    display: block;
-    color: var(--aro-gray-60);
-    cursor: pointer;
-
-    &:hover {
-      color: var(--aro-gray-80);
-    }
-  }
-
   .aro-drawer-header {
     flex: 0 0 auto;
-    font-size: 16px;
+    font-size: 125%;
     font-weight: bold;
     padding: 12px 16px;
     border-bottom: 1px solid var(--aro-gray-30);
-    color: var(--aro-gray-90);
   }
 
   .aro-drawer-body {
     flex: auto;
-    font-size: 12px;
     padding: 16px;
     overflow: auto;
-    color: var(--aro-gray-90);
   }
 
   .aro-drawer-footer {
