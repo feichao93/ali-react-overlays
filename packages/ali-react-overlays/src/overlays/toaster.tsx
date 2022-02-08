@@ -1,11 +1,11 @@
 import cx from 'classnames';
-import * as _ from 'lodash-es';
 import memoizeOne from 'memoize-one';
 import * as React from 'react';
 import { useRef } from 'react';
 import { noop } from 'rxjs';
 import { OverlayBehaviorContext, OverlayBehaviorContextType } from '../context';
 import { mergeRefs } from '../utils/common';
+import * as _ from '../utils/lodash-shim';
 import { makeDetachedRenderContainer, RenderContainer } from '../utils/render-containers';
 import { IOverlayAnimationProps, IOverlayPortalProps, Overlay, OverlayProps } from './overlay';
 import { Position, PositionOffset, PositionPlacement } from './position';
@@ -264,7 +264,7 @@ export class Toaster extends React.Component<ToasterProps, { items: ToastConfig[
 
     const groups = _.groupBy(items, (item) => item.placement);
 
-    return Object.keys(groups).map((placement) => (
+    return (Object.keys(groups) as PositionPlacement[]).map((placement) => (
       <ToastList
         key={placement}
         placement={placement as PositionPlacement}

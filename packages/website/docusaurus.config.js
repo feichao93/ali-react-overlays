@@ -7,7 +7,7 @@ module.exports = {
   onBrokenLinks: 'warn',
   organizationName: 'shinima',
   projectName: 'ali-react-overlays',
-  trailingSlash: false,
+  trailingSlash: true,
 
   themeConfig: {
     navbar: {

@@ -1,12 +1,12 @@
 import * as Popper from '@popperjs/core';
 import cx from 'classnames';
-import * as _ from 'lodash-es';
 import * as React from 'react';
 import { useContext } from 'react';
 import { OverlayBehaviorContext, OverlayBehaviorContextType } from '../context';
 import { animations } from '../utils/animations';
 import { batchedUpdates } from '../utils/batchUpdate';
 import { composeHandlers } from '../utils/common';
+import * as _ from '../utils/lodash-shim';
 import { PopupInteractionManager } from '../utils/PopupInteractionManager';
 import {
   IOverlayAnimationProps,
