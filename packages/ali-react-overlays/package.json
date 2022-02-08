@@ -1,6 +1,6 @@
 {
   "name": "ali-react-overlays",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "React 浮层组件包",
   "sideEffects": false,
   "module": "dist/ali-react-overlays.js",
