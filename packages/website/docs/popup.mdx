@@ -69,10 +69,10 @@ Popup 弹层用于在某个参照元素的指定方向弹出一个[浮层](overl
 
 ### 交互微调
 
-- interactionKind：弹层交互类型
-- `'click'` 点击 target 打开弹层
-- `'hover'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 或 content 关闭弹层
-- `'hover-target'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 关闭弹层
+- `interactionKind`：弹层交互类型
+  - `'click'` 点击 target 打开弹层
+  - `'hover'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 或 content 关闭弹层
+  - `'hover-target'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 关闭弹层
 - 除了以上交互，Popup 还支持以下选项控制弹层交互： `canOpenByFocus`, `canCloseByEsc`, `canCloseByBlur`, `canCloseByOutSideClick`
 
 <Story fn={stories.InteractionKind} />

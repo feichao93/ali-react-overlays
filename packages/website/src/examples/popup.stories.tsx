@@ -1,7 +1,7 @@
 import { Placement } from '@popperjs/core';
 import { Popup } from 'ali-react-overlays';
-import { useState } from 'react';
 import * as React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 export default { title: 'overlays / Popup' };
@@ -31,7 +31,8 @@ function SomeText() {
 export function Basic() {
   return (
     <Popup target={<button>点击查看详情</button>}>
-      <div style={{ border: '1px solid #999', padding: 8, background: 'var(--aro-gray-10)' }}>
+      {/* .aro-panel 提供了最基本的浮层样式 */}
+      <div className="aro-panel" style={{ padding: 12 }}>
         <SomeText />
       </div>
     </Popup>
@@ -72,7 +73,7 @@ export function InteractionKind() {
           </button>
         }
       >
-        <div style={{ border: '1px solid #999', padding: 8 }}>
+        <div className="aro-panel" style={{ padding: 8 }}>
           <SomeText />
         </div>
       </Popup>
@@ -84,7 +85,7 @@ export function InteractionKind() {
           </button>
         }
       >
-        <div style={{ border: '1px solid #999', padding: 8 }}>
+        <div className="aro-panel" style={{ padding: 8 }}>
           <SomeText />
         </div>
       </Popup>
@@ -98,7 +99,7 @@ export function InteractionKind() {
           </button>
         }
       >
-        <div style={{ border: '1px solid #999', padding: 8 }}>
+        <div className="aro-panel" style={{ padding: 8 }}>
           <SomeText />
         </div>
       </Popup>
@@ -110,7 +111,7 @@ export function InteractionKind() {
           </button>
         }
       >
-        <div style={{ border: '1px solid #999', padding: 8 }}>
+        <div className="aro-panel" style={{ padding: 8 }}>
           <SomeText />
         </div>
       </Popup>
@@ -123,7 +124,7 @@ export function InteractionKind() {
           </button>
         }
       >
-        <div style={{ border: '1px solid #999', padding: 8 }}>
+        <div className="aro-panel" style={{ padding: 8 }}>
           <SomeText />
         </div>
       </Popup>
@@ -179,7 +180,7 @@ const ButtonGrid = styled.div`
 `;
 
 export function Placements() {
-  const renderbuttons = (
+  const renderButtons = (
     placements: Placement[],
     getStyle: (index: number) => { gridRow: number; gridColumn: number },
   ) => {
@@ -206,22 +207,22 @@ export function Placements() {
   return (
     <div>
       <ButtonGrid>
-        {renderbuttons(['top-end', 'top', 'top-start'], (index) => ({
+        {renderButtons(['top-end', 'top', 'top-start'], (index) => ({
           gridRow: 1,
           gridColumn: index + 2,
         }))}
 
-        {renderbuttons(['left-end', 'left', 'left-start'], (index) => ({
+        {renderButtons(['left-end', 'left', 'left-start'], (index) => ({
           gridColumn: 1,
           gridRow: index + 2,
         }))}
 
-        {renderbuttons(['right-end', 'right', 'right-start'], (index) => ({
+        {renderButtons(['right-end', 'right', 'right-start'], (index) => ({
           gridColumn: 5,
           gridRow: index + 2,
         }))}
 
-        {renderbuttons(['bottom-end', 'bottom', 'bottom-start'], (index) => ({
+        {renderButtons(['bottom-end', 'bottom', 'bottom-start'], (index) => ({
           gridRow: 5,
           gridColumn: index + 2,
         }))}
@@ -334,7 +335,12 @@ export function NestedPopupInTallPage() {
 
 export function Arrow() {
   return (
-    <Popup target={<button>点击查看详情</button>} hasArrow wrapperStyle={{ '--aro-popup-arrow-color': '#333' } as any}>
+    <Popup
+      target={<button>鼠标悬停查看详情</button>}
+      interactionKind="hover"
+      hasArrow
+      wrapperStyle={{ '--aro-popup-arrow-color': '#333' } as any}
+    >
       <div style={{ color: 'white', background: '#333', padding: 12, fontSize: 14 }}>
         最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
         <br />

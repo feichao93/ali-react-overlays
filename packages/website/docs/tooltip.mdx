@@ -28,31 +28,27 @@ import * as stories from 'website/src/examples/tooltip.stories.tsx';
 
 ### 基本示例
 
-```jsx live
-function Example() {
-  return (
-    <Tooltip
-      title={
-        <>
-          最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
-          <br />
-          工作职责：巴拉巴拉小魔仙
-          <br />
-          联系方式：67676767｜1212121@163.con
-        </>
-      }
-    >
-      <span style={{ border: '1px solid currentColor', padding: 4, cursor: 'default' }}>鼠标悬停查看详情</span>
-    </Tooltip>
-  );
-}
-```
+<Story fn={stories.Basic} />
 
 ### 弹出方向
 
 使用 `placement` 设置文字提示的弹出方向。
 
 <stories.Placements />
+
+### 受控用法
+
+<Story fn={stories.Controlled} />
+
+### 深色样式
+
+<Story fn={stories.Dark} />
+
+### 定时关闭
+
+受控用法配合 setTimeout 可以实现定时关闭的文字提示。
+
+<Story fn={stories.AutoCloseAfterTwoSeconds} />
 
 ## API
 

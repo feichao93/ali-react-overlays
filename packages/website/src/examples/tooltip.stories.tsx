@@ -1,6 +1,6 @@
 import { PopupPlacement, Tooltip } from 'ali-react-overlays';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 export default { title: 'overlays / Tooltip' };
@@ -9,12 +9,16 @@ export function Basic() {
   return (
     <Tooltip
       title={
-        <div style={{ width: 160 }}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias quas nisi maiores odio...
-        </div>
+        <>
+          最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
+          <br />
+          工作职责：巴拉巴拉小魔仙
+          <br />
+          联系方式：67676767｜1212121@163.con
+        </>
       }
     >
-      <button>hover me</button>
+      <span style={{ border: '1px solid currentColor', padding: 4, cursor: 'default' }}>鼠标悬停查看详情</span>
     </Tooltip>
   );
 }
@@ -84,6 +88,62 @@ export function Controlled() {
       title={<div style={{ width: 200, height: 100 }}>tooltip content</div>}
     >
       <button onClick={() => setVisible(!visible)}>点击弹出提示信息</button>
+    </Tooltip>
+  );
+}
+
+export function Dark() {
+  return (
+    <Tooltip
+      // 可以将这些样式放到 .aro-tooltip.dark 中，然后用 className="dark" 来表示
+      style={
+        {
+          background: '#333',
+          color: 'white',
+          '--aro-popup-arrow-color': '#333',
+        } as any
+      }
+      title={
+        <>
+          最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
+          <br />
+          工作职责：巴拉巴拉小魔仙
+          <br />
+          联系方式：67676767｜1212121@163.con
+        </>
+      }
+    >
+      <span style={{ border: '1px solid currentColor', padding: 4, cursor: 'default' }}>鼠标悬停查看详情</span>
+    </Tooltip>
+  );
+}
+
+export function AutoCloseAfterTwoSeconds() {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(ref.current);
+    };
+  }, []);
+
+  return (
+    <Tooltip
+      visible={visible}
+      interactionKind="click"
+      placement="top-start"
+      onRequestClose={() => setVisible(false)}
+      onRequestOpen={() => setVisible(true)}
+      onOpen={() => {
+        clearTimeout(ref.current);
+        ref.current = setTimeout(() => {
+          setVisible(false);
+        }, 1500);
+      }}
+      title="详细信息|详细信息|详细信息"
+    >
+      <button style={{ padding: 4 }}>点击查看详情</button>
     </Tooltip>
   );
 }

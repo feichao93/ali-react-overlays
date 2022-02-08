@@ -167,6 +167,7 @@ export interface PopupProps
    * */
   canCloseByBlur?: boolean;
 
+  // todo 需要进行重构...
   attachOverlayManager?: boolean;
 
   /**
@@ -176,7 +177,7 @@ export interface PopupProps
   renderTarget?(...params: PopupTargetRenderArgs): React.ReactNode;
 
   /**
-   * 触发弹层显示或隐藏的操作类型，可以是 click', 'hover', 'hover-target'
+   * 触发弹层显示或隐藏的操作类型，可以是 'click', 'hover', 'hover-target'
    * @category 浮层交互
    */
   interactionKind?: PopupInteractionKind;
