@@ -126,7 +126,7 @@ export interface OverlayProps
   children?: React.ReactNode;
 
   /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构 */
-  renderChildren(overlayProps: { ref: React.RefObject<Element>; children: React.ReactNode }): React.ReactNode;
+  renderChildren(overlayProps: { ref: React.RefObject<HTMLElement>; children: React.ReactNode }): React.ReactNode;
 
   wrapperRef?: React.Ref<HTMLDivElement>;
 
@@ -234,7 +234,7 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
   }
 
   private _wrapperRef = React.createRef<HTMLDivElement>();
-  private innerRef = React.createRef<Element>();
+  private innerRef = React.createRef<HTMLElement>();
 
   // overlay 元素动画的实例，用于「下一个动画开始前 取消上一个动画」
   private overlayAnimateInst: Disposable = null;

@@ -48,6 +48,10 @@ export function showDialog(
 export function makeDialogQuickTools(containerFactory: () => RenderContainer) {
   const instMap = new Map<string, QuickDialogInstance>();
 
+  const close = (key: string) => {
+    instMap.get(key)?.close();
+  };
+
   return {
     closeAll() {
       const copy = new Map(instMap);
@@ -59,18 +63,21 @@ export function makeDialogQuickTools(containerFactory: () => RenderContainer) {
     show(config: DialogProps) {
       return showDialog(config, containerFactory, instMap);
     },
-    close(key: string) {
-      instMap.get(key)?.close();
-    },
+    close,
     alert(config: DialogProps) {
       return new Promise<true>((resolve) => {
-        showDialog(
+        const dialogKey = showDialog(
           {
             ...config,
-            // todo 确认之后 自动关闭对话框
             footer: (
               <div>
-                <button data-action="confirm" onClick={() => resolve(true)}>
+                <button
+                  data-action="confirm"
+                  onClick={() => {
+                    close(dialogKey);
+                    resolve(true);
+                  }}
+                >
                   确认
                 </button>
               </div>
@@ -83,16 +90,27 @@ export function makeDialogQuickTools(containerFactory: () => RenderContainer) {
     },
     confirm(config: DialogProps) {
       return new Promise<boolean>((resolve) => {
-        showDialog(
+        const dialogKey = showDialog(
           {
             ...config,
-            // todo 取消或确认之后 自动关闭对话框
             footer: (
               <div>
-                <button data-action="cancel" onClick={() => resolve(true)}>
+                <button
+                  data-action="cancel"
+                  onClick={() => {
+                    close(dialogKey);
+                    resolve(false);
+                  }}
+                >
                   取消
                 </button>
-                <button data-action="confirm" onClick={() => resolve(true)}>
+                <button
+                  data-action="confirm"
+                  onClick={() => {
+                    close(dialogKey);
+                    resolve(true);
+                  }}
+                >
                   确认
                 </button>
               </div>
